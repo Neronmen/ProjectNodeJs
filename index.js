@@ -1,6 +1,12 @@
 const express = require("express");
+
 const route = require("./routers/client/index.router.js");
 require("dotenv").config();
+//Kết nội MONGO_DB
+
+const database = require("./config/database.js");
+database.connect();
+
 const app = express();
 const port = process.env.PORT;
 
