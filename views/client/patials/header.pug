@@ -1,1 +1,41 @@
-header header
+link(rel="stylesheet", href="/css/style.css")
+//- header.header
+//-     .container 
+//-         .row.align-items-center 
+//-             .col-3 
+//-                 .inner-logo
+//-                     a(href="/") 
+//-                         img(src = "/images/logo.jpg",alt ="logo" class ="logo")
+               
+
+//-             .col-9 
+//-                 .inner-menu 
+//-                     ul 
+//-                         li 
+//-                             a(href="/") Trang chủ
+//-                         li 
+//-                             a(href="/products") Sản Phẩm           
+
+
+header
+  nav
+    .nav-bar
+      i.bx.bx-menu.sidebarOpen
+      .menu
+        .logo-toggle
+          span.logo
+            a(href='#') CodingLab
+          i.bx.bx-x.siderbarClose
+        ul.nav-links
+          li
+            a(href='MainController?action=Home') Home
+          li
+            a(href='MainController?action=Shop') Shop
+          li
+            button#logo
+              img(src='/images/logo.png' alt='')
+          li
+            a(href='#') Services
+          li
+            a(href='#') Contact
+
