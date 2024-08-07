@@ -44,7 +44,8 @@ module.exports.index = async (req, res) => {
   if(req.query.status){
     find.status = req.query.status
   }
-  
+
+  keyword = ""
 
   if(req.query.keyword ){
 
