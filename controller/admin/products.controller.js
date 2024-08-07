@@ -31,7 +31,7 @@ module.exports.index = async (req, res) => {
         const index = filterStatus.findIndex(item => item.status == "");
         filterStatus[index].class = "active";
       }
-   
+      
 
 
 
@@ -44,11 +44,21 @@ module.exports.index = async (req, res) => {
   if(req.query.status){
     find.status = req.query.status
   }
+  
+
+  if(req.query.keyword ){
+
+    keyword = req.query.keyword 
+    // Tìm kiếm sản phẩm like tên thôi  không phân biệt hoa thường
+      const regex = new RegExp(keyword,"i");
+      find.title = regex
+  }
   const listProducts = await Product.find(find);
 
   res.render("admin/pages/product/index.pug", {
     pageTitle: "Danh sách sản phẩm ",
     listProducts: listProducts,
-    filterStatus: filterStatus
+    filterStatus: filterStatus,
+    keyword: keyword
   });
 };
