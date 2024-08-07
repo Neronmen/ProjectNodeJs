@@ -4,6 +4,3 @@
         });
       }
 
-
-
-      module.exports.sanpham 
