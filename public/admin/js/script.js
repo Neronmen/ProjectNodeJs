@@ -23,17 +23,47 @@ if (buttonStatus.length > 0) {
 // Tìm kiếm
 const form = document.querySelector("#form-search");
 if (form) {
-    const url = new URL(window.location.href);
+  const url = new URL(window.location.href);
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const keyword = e.target.elements.keyword.value;
-    if(keyword ){
-        url.searchParams.set("keyword",keyword);
-    }else{
-        url.searchParams.delete("keyword");
+    if (keyword) {
+      url.searchParams.set("keyword", keyword);
+    } else {
+      url.searchParams.delete("keyword");
     }
     window.location.href = url.href;
   });
 }
 
 // End Tìm kiếm
+
+// Pagination
+const buttonPagination = document.querySelectorAll(".page-link");
+
+if (buttonPagination) {
+  const url = new URL(window.location.href);
+  buttonPagination.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+        var page = e.target.value
+        // var move = e.target.name
+        // console.log(page)
+        // console.log(move)
+        // if(move === "back"){
+        //   page = parseInt(page) - 1;
+        // }else if(move === "next"){
+        //   page = parseInt(page) + 1;
+        // }
+     
+        if(page){
+          url.searchParams.set("page",page);
+        }else{
+          url.searchParams.delete("page");
+        }
+        window.location.href = url.href
+    });
+  });
+}
+
+// End Pagination

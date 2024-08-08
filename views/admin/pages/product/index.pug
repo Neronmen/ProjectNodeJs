@@ -10,11 +10,11 @@ block main
         .card-body 
             .row 
                 .col-6
-                   +filterStatus(filterStatus)
+                    +filterStatus(filterStatus)
                 .col-6 
                     +searchView(keyword)
 
-         
+
 
 
     table.table.table-hover.table-sm
@@ -47,6 +47,20 @@ block main
                     td 
                         button(class="btn btn-warning btn-sm") Sửa
                         button(class="btn btn-danger btn-sm ml-1") Xóa
+    nav 
+        ul(class="pagination")
+            each item in buttonPage
+                li(class=`page-item ${item.class}`)
+                    button(class="page-link" type = "submit" value=item.value ) #{item.page}
+                //- li(class="page-item active")
+                //-     button(class="page-link " type = "submit" value="1" ) 1
+                //- li(class="page-item ")
+                //-     button(class="page-link" type = "submit" value="2" ) 2
+                //- li(class="page-item")
+                //-     button(class="page-link" type = "submit" value="3" ) 3 
+                //- li(class="page-item")
+                //-     button(class="page-link" type = "submit" name="next" ) Kế tiếp
+
 
 
 
