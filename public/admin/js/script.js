@@ -46,16 +46,8 @@ if (buttonPagination) {
   buttonPagination.forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
-        var page = e.target.value
-        // var move = e.target.name
-        // console.log(page)
-        // console.log(move)
-        // if(move === "back"){
-        //   page = parseInt(page) - 1;
-        // }else if(move === "next"){
-        //   page = parseInt(page) + 1;
-        // }
-     
+        var page = button.getAttribute("button-pagination");
+        console.log(page)
         if(page){
           url.searchParams.set("page",page);
         }else{

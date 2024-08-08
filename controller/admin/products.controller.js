@@ -18,54 +18,21 @@ module.exports.index = async (req, res) => {
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
-  const buttonPagination = [
-    {
-      page: "Trang trước",
-      class: "",
-    },
-    {
-      page: "1",
-      class: "",
-      value: "1",
-    },
-    {
-      page: "2",
-      class: "",
-      value: "2",
-    },
-    {
-      page: "3",
-      class: "",
-      value: "3",
-    },
-    {
-      page: "4",
-      class: "",
-      value: "4",
-    },
-    {
-      page: "Kế tiếp ",
-      class: "",
-    },
-  ];
-
-  if (req.query.page) {
-    const index = buttonPagination.findIndex(
-      (item) => item.page == req.query.page
-    );
-    buttonPagination[index].class = "active";
-  } else {
-    buttonPagination[1].class = "active";
-  }
 
   const objectPage = {
     currentPage: 1,
-    limit: 6,
+    limit: 4,
     skip: 0,
   };
   if (req.query.page) {
      objectPage.currentPage = parseInt(req.query.page);
   }
+
+    const countProducts = await Product.countDocuments(find);
+    const totalPages = Math.ceil(countProducts/objectPage.limit)
+    
+    objectPage.totalPage = totalPages;
+
 
   objectPage.skip = (objectPage.currentPage - 1) * objectPage.limit;
 
@@ -80,6 +47,6 @@ module.exports.index = async (req, res) => {
     listProducts: listProducts,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
-    buttonPage: buttonPagination,
+    totalPages: objectPage
   });
 };
