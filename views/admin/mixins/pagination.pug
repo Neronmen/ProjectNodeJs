@@ -1,0 +1,25 @@
+mixin pagination(totalPages)  
+    nav 
+        ul(class="pagination")
+            if(totalPages.currentPage > 1)
+                li(class=`page-item `)
+                        button(class="page-link" 
+                            button-pagination = 1
+                                ) Trang đầu tiên
+                li(class=`page-item `)
+                    button(class="page-link" 
+                        button-pagination = totalPages.currentPage - 1
+                            ) Trang trước
+            
+            - for(var i = 1 ; i <= totalPages.totalPage  ; i++)
+                    li(class=`page-item ${totalPages.currentPage == i ? "active" : ""}`)
+                         button(class="page-link " button-pagination = i ) #{i}
+            if(totalPages.currentPage < totalPages.totalPage)            
+                li(class=`page-item `)
+                    button(class="page-link" 
+                            button-pagination = totalPages.currentPage + 1
+                        ) Kế tiếp
+                li(class=`page-item `)
+                        button(class="page-link" 
+                                button-pagination = totalPages.totalPage
+                            ) Trang cuối cùng  

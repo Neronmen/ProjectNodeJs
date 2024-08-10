@@ -2,6 +2,7 @@
 const Product = require("../../models/product.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
+const paginationHelper = require("../../helpers/pagination");
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
 
@@ -18,26 +19,16 @@ module.exports.index = async (req, res) => {
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
-
-  const objectPage = {
+  // Pagination
+  const countProducts = await Product.countDocuments(find);
+  const objectPage = paginationHelper({
     currentPage: 1,
     limit: 4,
     skip: 0,
-  };
-  if (req.query.page) {
-     objectPage.currentPage = parseInt(req.query.page);
-  }
-
-    const countProducts = await Product.countDocuments(find);
-    const totalPages = Math.ceil(countProducts/objectPage.limit)
-    
-    objectPage.totalPage = totalPages;
-
-
-  objectPage.skip = (objectPage.currentPage - 1) * objectPage.limit;
-
-  console.log(objectPage.skip);
-
+  },
+  req.query,
+  countProducts
+) ;
   const listProducts = await Product.find(find)
     .limit(objectPage.limit)
     .skip(objectPage.skip);
@@ -50,3 +41,14 @@ module.exports.index = async (req, res) => {
     totalPages: objectPage
   });
 };
+
+
+// [PATCH] /admin/product/change-status/active/123
+module.exports.changeStatus = async (req, res) => {
+    const statusCurrent = req.params.status;
+    const id = req.params.id;
+    const statusChange = statusCurrent == "active" ? "inactive" : "active";
+    await Product.updateOne({_id: id},{status: statusChange})
+    res.redirect("back")
+
+}
