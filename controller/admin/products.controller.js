@@ -21,14 +21,15 @@ module.exports.index = async (req, res) => {
   }
   // Pagination
   const countProducts = await Product.countDocuments(find);
-  const objectPage = paginationHelper({
-    currentPage: 1,
-    limit: 4,
-    skip: 0,
-  },
-  req.query,
-  countProducts
-) ;
+  const objectPage = paginationHelper(
+    {
+      currentPage: 1,
+      limit: 4,
+      skip: 0,
+    },
+    req.query,
+    countProducts
+  );
   const listProducts = await Product.find(find)
     .limit(objectPage.limit)
     .skip(objectPage.skip);
@@ -38,17 +39,25 @@ module.exports.index = async (req, res) => {
     listProducts: listProducts,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
-    totalPages: objectPage
+    totalPages: objectPage,
   });
 };
 
-
 // [PATCH] /admin/product/change-status/active/123
 module.exports.changeStatus = async (req, res) => {
-    const statusCurrent = req.params.status;
-    const id = req.params.id;
-    const statusChange = statusCurrent == "active" ? "inactive" : "active";
-    await Product.updateOne({_id: id},{status: statusChange})
-    res.redirect("back")
+  const statusCurrent = req.params.status;
+  const id = req.params.id;
+  const statusChange = statusCurrent == "active" ? "inactive" : "active";
+  await Product.updateOne({ _id: id }, { status: statusChange });
+  res.redirect("back");
+};
 
-}
+// [PATCH] /admin/product/change-multi
+module.exports.changeMulti = async (req, res) => {
+  const type = req.body.type;
+  const ids = req.body.ids.split(", ");
+  console.log(type)
+  console.log(ids)
+  await Product.updateMany({ _id:{ $in: ids } }, {status: type });
+  res.redirect("back");
+};

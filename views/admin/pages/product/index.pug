@@ -15,12 +15,38 @@ block main
                 .col-6 
                     +searchView(keyword)
 
+    .card.mb-3  
+        .card-header Danh sách
+            .card-body 
+                form(
+                    action="/admin/products/change-multi?_method=PATCH"
+                , method="post"
+                form-change-multi
+                ) 
+                    .d-flex.align-items-start 
+                        .form-group 
+                            select(name = "type" class="form-control")
+                                option(value="active") Hoạt Động 
+                                option(value="inactive") Dừng hoạt động 
+                        .form-group 
+                            input(
+                                type="text"
+                                name="ids"
+                                value=""
+                                class="form-control d-none"
+                            )  
+                        button(type="submit" class="btn btn-primary") áp dụng
 
-
-
-    table.table.table-hover.table-sm
+    table(
+        class="table table-hover table-sm"
+        checkboxAll
+    )
         thead 
             tr 
+                th 
+                    input(type="checkbox"
+                        checkAll
+                    )
                 th STT 
                 th Hình ảnh 
                 th Tiêu đề
@@ -31,6 +57,12 @@ block main
         tbody 
             each item,index in listProducts
                 tr 
+                    td 
+                        input(
+                            type="checkbox"
+                            name="id"
+                            value=item.id
+                        )
                     td #{index +1 }
                     td 
                         img(
