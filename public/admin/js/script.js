@@ -101,6 +101,16 @@ if (formChangeMulti) {
     const inputsChecked = checkboxAll.querySelectorAll(
       "input[name=id]:checked"
     );
+    const typeChange = e.target.elements.type.value;
+    if (typeChange == "data-delete") {
+      const confirmDelete = confirm(
+        "Bạn có chắc chắn muốn xóa tất cả sản phẩm được chọn không?"
+      );
+      if (!confirmDelete) {
+        return;
+      }
+    }
+
     if (inputsChecked.length > 0) {
       const ids = [];
       inputsChecked.forEach((input) => {
@@ -160,10 +170,7 @@ if (buttonsRecover.length > 0) {
 
 // End Recover Product
 
-
-
-
-// Recover Multi 
+// Recover Multi
 const formRecoverMulti = document.querySelector("[form-recover-multi]");
 
 if (formRecoverMulti) {
