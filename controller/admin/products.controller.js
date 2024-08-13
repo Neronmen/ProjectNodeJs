@@ -61,3 +61,16 @@ module.exports.changeMulti = async (req, res) => {
   await Product.updateMany({ _id:{ $in: ids } }, {status: type });
   res.redirect("back");
 };
+
+
+
+// [DELETE] /admin/product/delete
+module.exports.delete = async (req, res) => {
+  const id = req.params.id;
+  // Xóa vĩnh viễn 
+  //- await Product.deleteOne({_id: id})
+  // Xóa mềm 
+  await Product.updateOne({_id: id},{deleted: true})
+  res.redirect("back");
+};
+
