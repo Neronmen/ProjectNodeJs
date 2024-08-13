@@ -31,6 +31,7 @@ module.exports.index = async (req, res) => {
     countProducts
   );
   const listProducts = await Product.find(find)
+    .sort({position: "desc"})
     .limit(objectPage.limit)
     .skip(objectPage.skip);
 
@@ -66,6 +67,13 @@ module.exports.changeMulti = async (req, res) => {
     case "data-delete":
       await Product.updateMany({ _id: { $in: ids } }, { deleted: "true" });
       break;
+    case "change-position":
+      for (const item of ids) {
+        let [id,position] = item.split("-");
+        position = parseInt(position);
+        await Product.updateOne({ _id: id }, {position: position });
+      }
+      break;
     default:
       break;
   }
@@ -86,8 +94,7 @@ module.exports.delete = async (req, res) => {
 // [GET] /admin/product/recover
 module.exports.indexRecover = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
-
-  console.log(req.query.status);
+  // console.log(req.query.status);
   let find = {
     deleted: true,
   };
@@ -96,7 +103,7 @@ module.exports.indexRecover = async (req, res) => {
   }
   // Phần tìm kiếm
   const objectSearch = searchHelper(req.query);
-  console.log(objectSearch);
+  // console.log(objectSearch);
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
