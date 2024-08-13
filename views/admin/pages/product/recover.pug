@@ -1,0 +1,75 @@
+
+extends ../../layouts/default.pug
+include  ../../mixins/filter-status.pug
+include  ../../mixins/search-view.pug
+include  ../../mixins/pagination.pug
+include  ../../mixins/form-recover-multi.pug
+block main
+    h1 #{pageTitle}
+
+    .card.mb-3  
+        .card-header  Tìm kiếm 
+        .card-body 
+            .row 
+                
+                .col-6 
+                    +searchView(keyword)
+
+    .card.mb-3  
+        .card-header Danh sách
+            .card-body 
+                +formRecoverMulti("/admin/products/recoverMulti?_method=PATCH")
+                
+
+    table(
+        class="table table-hover table-sm"
+        checkboxAll
+    )
+        thead 
+            tr 
+                th 
+                    input(type="checkbox"
+                        checkAll
+                    )
+                th STT 
+                th Hình ảnh 
+                th Tiêu đề
+                th Giá
+                th Hành động 
+
+        tbody 
+            each item,index in listProducts
+                tr 
+                    td 
+                        input(
+                            type="checkbox"
+                            name="id"
+                            value=item.id
+                        )
+                    td #{index +1 }
+                    td 
+                        img(
+                            src=item.thumbnail
+                            alt = "Sản phẩm 1"
+                            width = "100px"  
+                            )
+                    td #{item.title}
+                    td #{item.price}$
+                    td 
+                        button(class="btn btn-warning btn-sm"
+                            button-recover 
+                            data-id = item.id
+                        ) Khôi phục
+                        
+                                 
+
+    +pagination(totalPages)
+    form(action=""
+    , method="post"
+    id = "form-recover-product"
+    path="/admin/products/recover/"
+    ) 
+
+    script(src="/admin/js/product.js") 
+
+
